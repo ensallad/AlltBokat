@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Start";
+    Layout = "~/Views/Shared/_LayoutLoggedIn.cshtml";
+}
+@Styles.Render("~/Content/Settings.css")
+
+
+<head>
+    <title>Personalize Company Profile</title>
+    <link rel="stylesheet" type="text/css" href="" />
+</head>
+
+<body>
+    <div>
+
+        <div style="width:100%; height:90%; margin-top:10%;">
+
+            <img style="max-width:50%; float:left;" id="testbild" src="" alt="Smiley face">
+            <h2 style="float:right; max-width:46%; margin-top:30%;" id="startText">""</h2>
+        </div>
+        @section scripts{
+            <script>
+
+                $(document).ready(function () {
+
+                    $.ajax({
+
+                        url: "https://alltbokatwebapi2.azurewebsites.net/api/VisualSettingsModels",
+                        type: "Get",
+
+                        success: function (data) {
+
+                            for (var i = 0; i < data.length; i++) {
+                                var picUrl = data[i].PictureUrl;
+                                var startTextString = data[i].StartText;
+
+                                document.getElementById('testbild').setAttribute('src', picUrl)
+                                document.getElementById('startText').innerHTML = startTextString;
+                            }
+                        },
+
+                        error: function (msg) { alert(msg + "startfel"); }
+                    });
+                });
+
+
+            </script>
+
+        }
+        <div class="vit" style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:white"></div>
+    </div>
+</body>

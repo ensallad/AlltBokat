@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "LogOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body>
+    <div>
+        <br />
+        <br />
+        <h2>You are now logged out, thank you for visiting.</h2>
+
+        @section scripts{
+
+            <script>
+
+
+                $(document).ready(function () {
+                    if (sessionStorage.getItem('acessToken') != null) {
+
+                        sessionStorage.clear();
+
+
+                    }
+
+
+                });
+
+
+            </script>
+
+
+
+        }
+        <div class="vit" style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:white"></div>
+    </div>
+</body>

@@ -1,0 +1,100 @@
+﻿
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title </title>
+    @Scripts.Render("~/bundles/scriptSettings")
+    <link rel="stylesheet" type="text/css" href="" />
+    @Scripts.Render("~/bundles/SettingsBundle")
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/fullcalendar")
+
+
+
+</head>
+
+<body>
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Home", "StartLoggedIn", "Home", null, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Register Employee", "Register", "Home", null, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Bookings", "IndexLoggedIn", "Home", null, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Settings", "Settings", "Home", null, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Unapproved bookings", "UnApprovedBookings", "Home", null, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Log Out", "LogOut", "Home", null, new { @class = "navbar-brand" })
+                    <div class="vit" style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:white"></div>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav"></ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/fullcalendar")
+    @Scripts.Render("~/bundles/SettingsBundle")
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+    @RenderSection("scripts", required: false)
+    <script>
+        $(window).on('load', function () {
+
+            if (sessionStorage.getItem('acessToken') == null) {
+
+                window.location.href = '@Url.Action("LogInError", "Home")/';
+            }
+
+
+            //$("#cover").css('visibility', 'hide');
+            getActiveCss();
+            //$("#cover").hide();
+
+
+
+        })
+
+        $(document).ready(function () {
+            getActiveCss();
+
+            $(".vit").fadeOut(600);
+        });
+
+
+      @*$(document).ready(function () {
+
+            if (sessionStorage.getItem('acessToken') == null) {
+
+                window.location.href = '@Url.Action("LogInError", "Home")/';
+            }
+        })*@
+
+
+    </script>
+
+</body>
+
+</html>

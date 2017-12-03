@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewBag.Title = "LogIn";
+
+}
+<body>
+    <div>
+        <br />
+        <br />
+
+        <br />
+        <h1 style="color:red">  @ViewBag.Message</h1>
+        <br />
+
+
+
+
+
+        <div class="col-sm-4">
+            <form id="idForm" data-bind="submit: register" method="post">
+                <h3>Log In</h3>
+
+
+                <div class="form-group">
+                    <label> Username</label>
+                    <input class="form-control" id="UserName" type="text" onkeyup="validateUserName()" data-bind="value:UserName" /> <label id="commentUserNamePrompt"></label>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input class="form-control" id="Password" type="password" onkeyup="validatePassword()" data-bind="value:Password" /> <label id="commentPasswordPrompt"></label>
+                </div>
+                <div class="form-group">
+                    <button type="button" onclick="sendLogIn()" class="btn btn-default">Log In</button>
+                </div>
+
+
+            </form>
+        </div>
+
+        @section scripts{
+
+            <script>
+
+        function sendLogIn() {
+
+
+
+
+            $.ajax({
+                url: 'https://alltbokatwebapi2.azurewebsites.net/token',
+                method: 'POST',
+                contentType: 'application/json',
+                data: {
+                    username: $('#UserName').val(),
+                    password: $('#Password').val(),
+                    grant_type: 'password'
+
+
+                },
+
+                success: function (response) {
+                    sessionStorage.setItem('acessToken', response.access_token);
+                    sessionStorage.setItem('UserName', response.userName);
+                    //sessionStorage.test = response.access_token;
+
+
+                    //var x = sessionStorage.getItem('acessToken').toString();
+                    //var y = x.valueOf;
+                    //alert(sessionStorage.test);
+                    //alert(sessionStorage.getItem('UserName'));
+                    //alert("Det gick bra att logga in" + JSON.stringify(response));
+                    setSessionId();
+
+                },
+                error: function () { $('#errorModal2').modal('show'); }
+
+
+
+
+            });
+
+        }
+
+
+
+        function setSessionId() {
+
+            var x = sessionStorage.getItem('UserName');
+
+
+
+            $.ajax({
+
+                url: "https://alltbokatwebapi2.azurewebsites.net/api/ApplicationUsers/",
+                type: "Get",
+
+                success: function (data) {
+                    //var USERNAME = "";
+                    //var ID = "";
+                    loopy:
+                    for (var i = 0; i < data.length; i++) {
+                        //alert(data[i].UserName);
+                        var ID = data[i].Id;
+                        var USERNAME = data[i].UserName;
+
+                        //alert(x);
+
+                        if (USERNAME == x) {
+
+
+                            sessionStorage.setItem('ThisUserId', ID);
+                            //alert(sessionStorage.getItem('ThisUserId'));
+
+
+                            window.location.href = '@Url.Action("Settings", "Home")/';
+                            break loopy;
+                        }
+
+                        else {
+                            //alert("else körs");
+                        }
+
+
+
+                    }
+                },
+
+                error: function (msg) { alert(msg + "startfel"); }
+            });
+
+        }
+
+            </script>
+        }
+        @*<div class="vit" style="position:absolute;top:0;left:0;width:100%;height:100%;background-color:white"></div>*@
+    </div>
+    <div id="errorModal2" class="modal fade" role="dialog" data-backdrop="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Error!</h4>
+                </div>
+                <div class="modal-body">
+                    <br />
+                    <h4>An error has occured, invalid username or password!</h4>
+                    <br />
+                    <br />
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
